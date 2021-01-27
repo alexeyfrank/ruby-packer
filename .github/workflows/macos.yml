@@ -12,6 +12,8 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
+      - name: 'Download SSL certificates'
+        run: wget --no-verbose https://curl.se/ca/cacert.pem
       - uses: actions/checkout@v2
       - name: "[Enclose.IO] Install dependencies"
         run: |
@@ -19,6 +21,7 @@ jobs:
           brew install squashfs
       - name: "[Enclose.IO] Check dependencies"
         run: |
+          pwd
           sw_vers
           uname -a
           uname -p
@@ -35,6 +38,8 @@ jobs:
       - name: "[Enclose.IO] Install dependencies"
         run: bundle install
       - name: "[Enclose.IO] Rake"
+        env:
+          SSL_CERT_FILE: "/home/runner/work/testbox/testbox/cacert.pem"
         run: bundle exec rake
       - name: "[Enclose.IO] Create macOS Release"
         if: ${{ github.ref == 'refs/heads/master' && success() }}
