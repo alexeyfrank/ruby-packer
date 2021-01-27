@@ -21,7 +21,6 @@ jobs:
           brew install squashfs
       - name: "[Enclose.IO] Check dependencies"
         run: |
-          pwd
           sw_vers
           uname -a
           uname -p
@@ -39,7 +38,7 @@ jobs:
         run: bundle install
       - name: "[Enclose.IO] Rake"
         env:
-          SSL_CERT_FILE: "/home/runner/work/testbox/testbox/cacert.pem"
+          SSL_CERT_FILE: "/Users/runner/work/ruby-packer/ruby-packer/cacert.pem"
         run: bundle exec rake
       - name: "[Enclose.IO] Create macOS Release"
         if: ${{ github.ref == 'refs/heads/master' && success() }}
